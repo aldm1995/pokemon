@@ -104,9 +104,41 @@ while (a < attackBtnEL.length) {
 		var attackName = this.dataset.attack;
 		gameState.currentUserAttack = attackName;
 		console.log(gameState.currentUserAttack);
+
+		play(attackName, cpuAttack());
 	};
 	a++;
 }
+
+var cpuAttack = function cpuAttack() {
+	var attacks = ['rock', 'paper', 'scissors'];
+
+	return attacks[randomNumber(0, 3)];
+};
+
+var play = function play(userAttack, cpuAttack) {
+	switch (userAttack) {
+		case 'rock':
+			if (cpuAttack == 'paper') {
+				console.log('paper kills rock');
+			}
+			if (cpuAttack == 'scissors') {
+				console.log('rock killed paper');
+			}
+			if (cpuAttack == 'rock') {
+				console.log('its a draw');
+			}
+
+			console.log(userAttack);
+			break;
+		case 'paper':
+			console.log(userAttack);
+			break;
+		case 'scissors':
+			console.log(userAttack);
+			break;
+	}
+};
 
 var randomNumber = function randomNumber(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
