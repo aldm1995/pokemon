@@ -43,43 +43,78 @@ console.log(gameState);
 var pokemonsEL = document.querySelector('.select-screen').querySelectorAll('.character');
 console.log(pokemonsEL);
 var battleScreenEl = document.getElementById('battle-screen');
-var i = 0;
+var attackBtnEL = document.getElementById('battle-screen').querySelectorAll('.attack');
+console.log(attackBtnEL);
 
+// initial loop
+var i = 0;
 while (i < pokemonsEL.length) {
+	// add function to all characters on screen select
 	pokemonsEL[i].onclick = function () {
+		// curent selected pokemon name
 		var pokemonName = this.dataset.pokemon;
+
+		// elements for images on battle screen
 		var player1Img = document.querySelector('.player1').getElementsByTagName('img');
 		var player2Img = document.querySelector('.player2').getElementsByTagName('img');
 
+		// we save the current pokemon
 		gameState.userPokemon = pokemonName;
 
+		// cpu pics a pokemon
 		cpuPick();
+		// change screen to battle scene
 		battleScreenEl.classList.toggle('active');
 
+		// select data from current user pokemon
 		var currentPokemon = pokemonDB.filter(function (pokemon) {
 			return pokemon.name == gameState.userPokemon;
 		});
-
+		player1Img[0].src = currentPokemon[0].img;
+		// select data from current cpu pokemon
 		var currentRivalPokemon = pokemonDB.filter(function (pokemon) {
 			return pokemon.name == gameState.rivalPokemon;
 		});
-
-		player1Img[0].src = currentPokemon[0].img;
 		player2Img[0].src = currentRivalPokemon[0].img;
 
-		console.log(currentPokemon);
+		// user choose attack
+
+
+		// cpu health goes down
+
+		// cpu attack
+
+		// user health goes down
+
+		// rock > scissors
+
+		// paper > rock
+
+		// scissors > paper
+
+		// depending on pokemon type and defense is how hard the attack is going to be and how much health it takes out
+
+		// then whomeve get to to health  <= 0 loses
 	};
 	i++;
 }
+var a = 0;
+while (a < attackBtnEL.length) {
+	attackBtnEL[a].onclick = function () {
+		var attackName = this.dataset.attack;
+		gameState.currentUserAttack = attackName;
+		console.log(gameState.currentUserAttack);
+	};
+	a++;
+}
 
-function randomNumber(min, max) {
+var randomNumber = function randomNumber(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
-function cpuPick() {
-
+var cpuPick = function cpuPick() {
 	gameState.rivalPokemon = pokemonsEL[randomNumber(0, 3)].dataset.pokemon;
-}
+};
 
 // pokemon
 // create data for 3 different pokemons, with their names, type, weaknesses, health, and attack moves(name, attack stat, maximum)
