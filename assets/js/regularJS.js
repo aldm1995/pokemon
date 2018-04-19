@@ -77,8 +77,10 @@ while(i < gameState.elements.pokemonsEL.length) {
 		
 		// current user and cpu pokemon initial health
 		gameState.currentPokemon[0].health = gameState.calculateInitialHealth(gameState.currentPokemon);
-		gameState.currentRivalPokemon[0].health = gameState.calculateInitialHealth(gameState.currentRivalPokemon);
+		gameState.currentPokemon[0].originalHealth = gameState.calculateInitialHealth(gameState.currentPokemon);
 		
+		gameState.currentRivalPokemon[0].health = gameState.calculateInitialHealth(gameState.currentRivalPokemon);
+		gameState.currentRivalPokemon[0].originalHealth = gameState.calculateInitialHealth(gameState.currentRivalPokemon);
 		
 		console.log(gameState)
 		
@@ -110,9 +112,23 @@ calculateInitialHealth: function(user) {
 },
 
 attackMove: function (attack, level, stack, critical, enemy, attacker) {
-	console.log(enemy.name + ' before: ' + enemy.health)
-	var attackAmount = ((attack * level ) * (stack + critical))
-	enemy.health = enemy.health - attackAmount
+	console.log(enemy.name + ' before: ' + enemy.health);
+	var attackAmount = ((attack * level ) * (stack + critical));
+	enemy.health = enemy.health - attackAmount;
+	
+	var userHP = document.querySelector('.player1').querySelector('.stats').querySelector('.health').querySelector('.health-bar').querySelector('.inside')
+	
+	var cpuHP = document.querySelector('.player2').querySelector('.stats').querySelector('.health').querySelector('.health-bar').querySelector('.inside')
+	if(enemy.owner == 'user') {
+		var minusPercent = ((enemy.health *100) / enemy.originalHealth)
+		console.log(userHP)
+		userHP.stytle.width = ((minusPercent < 0) ? 0 : minusPercent) + '%' 
+	} 
+	else {
+		var minusPercent = ((enemy.health *100) / enemy.originalHealth)
+		console.log(userHP)
+		cpuHP.stytle.width = ((minusPercent < 0) ? 0 : minusPercent) + '%' 
+	}
 	gameState.checkWinner(enemy, attacker)
 	console.log(enemy.name + ' after:' + enemy.health)
 },
@@ -133,8 +149,10 @@ cpuPick: function () {
 },
 
 play: function(userAttack, cpuAttack) {
-	var currentPokemon = gameState.currentPokemon[0]
-	var currentRivalPokemon = gameState.currentRivalPokemon[0]
+	var currentPokemon = gameState.currentPokemon[0];
+	var currentRivalPokemon = gameState.currentRivalPokemon[0];
+	currentPokemon.owner = 'user'
+	currentRivalPokemon.owner = 'cpu'
 	switch(userAttack) {
 		case 'rock':
 			if(cpuAttack == 'paper') {
