@@ -122,12 +122,12 @@ attackMove: function (attack, level, stack, critical, enemy, attacker) {
 	if(enemy.owner == 'user') {
 		var minusPercent = ((enemy.health *100) / enemy.originalHealth)
 		console.log(userHP)
-		userHP.stytle.width = ((minusPercent < 0) ? 0 : minusPercent) + '%' 
+		userHP.style.width = ((minusPercent < 0) ? 0 : minusPercent) + '%' 
 	} 
 	else {
 		var minusPercent = ((enemy.health *100) / enemy.originalHealth)
 		console.log(userHP)
-		cpuHP.stytle.width = ((minusPercent < 0) ? 0 : minusPercent) + '%' 
+		cpuHP.style.width = ((minusPercent < 0) ? 0 : minusPercent) + '%' 
 	}
 	gameState.checkWinner(enemy, attacker)
 	console.log(enemy.name + ' after:' + enemy.health)
@@ -145,7 +145,11 @@ randomNumber: function(min, max) {
 },
 
 cpuPick: function () {
-	gameState.rivalPokemon = gameState.elements.pokemonsEL[gameState.randomNumber(0, 3)].dataset.pokemon
+	do {
+		gameState.rivalPokemon = gameState.elements.pokemonsEL[gameState.randomNumber(0, 3)].dataset.pokemon	
+		console.log('looping' + gameState.rivalPokemon )
+	}
+	while (gameState.userPokemon == gameState.rivalPokemon)
 },
 
 play: function(userAttack, cpuAttack) {
